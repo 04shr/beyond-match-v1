@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recruiter Actions – BeyondMatch</title>
+  <link rel="stylesheet" href="recruiter-matches.css" />
+  <link rel="stylesheet" href="skeleton-loader.css" />
+</head>
+<body>
+
+<aside class="sidebar">
+  <h2 class="brand">BeyondMatch</h2>
+  <nav class="menu">
+    <a href="rec-dash.html"     class="menu-item">Dashboard</a>
+    <a href="rec-jobs.html"     class="menu-item">My Jobs</a>
+    <a href="cand-matches.html" class="menu-item">Candidate Matches</a>
+    <a href="rec-actions.html"  class="menu-item active">Recruiter Actions</a>
+    <a href="settings.html"     class="menu-item">Settings</a>
+    <button class="menu-item logout-btn" onclick="unifiedLogout()">⏻ Logout</button>
+  </nav>
+</aside>
+
+<main class="main">
+
+  <div class="page-title">
+    <h1>Recruiter Actions</h1>
+    <p>Candidate profiles and pipeline status at a glance.</p>
+  </div>
+
+  <div id="actionsContainer" class="actions-grid"></div>
+
+</main>
+
+<!-- Instant skeletons -->
+<script>
+(function() {
+  const grid = document.getElementById('actionsContainer');
+  if (!grid) return;
+  function skel() {
+    return `
+      <div class="skeleton-candidate-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+          <div class="skeleton-title" style="width:55%;height:16px;"></div>
+          <div class="skeleton-chip" style="width:70px;height:20px;border-radius:6px;"></div>
+        </div>
+        <div class="skeleton-subtitle" style="width:80%;height:12px;margin-bottom:6px;"></div>
+        <div class="skeleton-subtitle" style="width:60%;height:12px;margin-bottom:16px;"></div>
+        <div style="display:flex;justify-content:flex-end;">
+          <div class="skeleton-btn" style="width:80px;"></div>
+        </div>
+      </div>`;
+  }
+  grid.innerHTML = Array(6).fill(null).map(skel).join('');
+})();
+</script>
+
+<script type="module" src="auth.js"></script>
+<script type="module" src="api.js"></script>
+</body>
+</html>

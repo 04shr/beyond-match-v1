@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Portal – BeyondMatch</title>
+
+  <!-- Base Theme -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Admin Layout Extensions -->
+  <link rel="stylesheet" href="admin.css" />
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <h2 class="brand">BeyondMatch</h2>
+
+  <nav class="menu">
+    <a href="admin.html" class="menu-item active">Admin Dashboard</a>
+    <a href="settings.html" class="menu-item">Settings</a>
+    
+    <button class="menu-item logout-btn" onclick="unifiedLogout()">
+  ⏻ Logout
+</button>
+
+            </div>
+  </nav>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- TITLE -->
+  <div class="page-title">
+    <h1>Administrator Dashboard</h1>
+    <p>System-wide monitoring, analytics, and control</p>
+  </div>
+
+  <!-- ADMIN GRID -->
+  <div class="admin-grid">
+
+    <!-- LEFT: POWER BI -->
+    <div class="card admin-powerbi-card">
+      <h3>System Analytics Dashboard</h3>
+      <iframe
+        src="https://app.powerbi.com/view?r=eyJrIjoiZmYzMDljOGEtMWJiZC00ZThhLWEyOTctMzk5YmVmMDBmN2QxIiwidCI6IjljMTg1NzE0LWYwYWYtNDgyNi1iZDRiLTdiOTg3ZjZkZDkyMSJ9"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <!-- RIGHT: ACTIVITY STACK -->
+    <div class="admin-activity-stack">
+
+      <div class="card">
+        <h3>Candidate Activity Overview</h3>
+        <ul class="list">
+          <li>Total Registered Candidates <span id="totalCandidates">—</span></li>
+<li>New Registrations (Recent) <span id="recentCandidates">—</span></li>
+<li>Profiles with Active Matches <span id="activeMatches">—</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Recruiter Activity Overview</h3>
+        <ul class="list">
+      <li>Total Recruiters <span id="totalRecruiters">—</span></li>
+<li>Total Job Descriptions <span id="totalJDs">—</span></li>
+<li>Avg Matches per JD <span id="avgMatchesPerJD">—</span></li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+<script type="module" src="auth.js"></script>
+<script>
+const API_BASE = "https://2bcj60lax1.execute-api.eu-north-1.amazonaws.com/prod";
+
+async function loadAdminStats() {
+  try {
+    const res = await fetch(`${API_BASE}/admin/metrics`);
+    if (!res.ok) throw new Error("Failed to load admin stats");
+
+    const data = await res.json();
+
+    document.getElementById("totalCandidates").textContent = data.totalCandidates;
+    document.getElementById("recentCandidates").textContent = data.recentCandidates;
+    document.getElementById("activeMatches").textContent = data.activeMatches;
+
+    document.getElementById("totalRecruiters").textContent = data.totalRecruiters;
+    document.getElementById("totalJDs").textContent = data.totalJobs;
+    document.getElementById("avgMatchesPerJD").textContent = data.avgMatchesPerJD;
+
+  } catch (err) {
+    console.error("Admin stats error:", err);
+  }
+}
+
+
+document.addEventListener("DOMContentLoaded", loadAdminStats);
+</script>
+
+</body>
+</html>

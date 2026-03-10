@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Candidate Matches – BeyondMatch</title>
+  <link rel="stylesheet" href="recruiter-matches.css" />
+  <link rel="stylesheet" href="skeleton-loader.css" />
+</head>
+<body>
+
+<aside class="sidebar">
+  <h2 class="brand">BeyondMatch</h2>
+  <nav class="menu">
+    <a href="rec-dash.html"     class="menu-item">Dashboard</a>
+    <a href="rec-jobs.html"     class="menu-item">My Jobs</a>
+    <a href="cand-matches.html" class="menu-item active">Candidate Matches</a>
+    <a href="rec-actions.html"  class="menu-item">Recruiter Actions</a>
+    <a href="settings.html"     class="menu-item">Settings</a>
+    <button class="menu-item logout-btn" onclick="unifiedLogout()">⏻ Logout</button>
+  </nav>
+</aside>
+
+<main class="main">
+
+  <div class="page-title">
+    <h1 id="candMatchesTitle">Candidate Matches</h1>
+    <p>Select a role to view matching candidates.</p>
+  </div>
+
+  <div class="jobs-filter-bar">
+    <select id="roleDropdown" class="input small">
+      <option value="">Select Role</option>
+    </select>
+    <select id="candSortSelect" class="input small">
+      <option value="newest">Newest</option>
+      <option value="oldest">Oldest</option>
+      <option value="name">Name A–Z</option>
+    </select>
+    <input type="text" id="candSearchInput" class="input small" style="background-image:none;padding-right:12px;cursor:text;" placeholder="Search candidate…" />
+  </div>
+
+  <div class="jobs-table-card">
+    <div class="cand-container">
+      <div id="candMatchesTable" class="cand-grid"></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Instant skeletons -->
+<script>
+(function() {
+  const grid = document.getElementById('candMatchesTable');
+  if (!grid) return;
+  function skel() {
+    return `
+      <div class="skeleton-candidate-card">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="skeleton-title" style="width:55%;height:16px;"></div>
+          <div class="skeleton-subtitle" style="width:70%;height:12px;"></div>
+          <div style="display:flex;gap:5px;">
+            <div class="skeleton-chip"></div>
+            <div class="skeleton-chip" style="width:60px;"></div>
+            <div class="skeleton-chip" style="width:70px;"></div>
+          </div>
+          <div class="skeleton-subtitle" style="width:28%;height:13px;"></div>
+          <div style="display:flex;justify-content:flex-end;margin-top:6px;">
+            <div class="skeleton-btn" style="width:90px;"></div>
+          </div>
+        </div>
+      </div>`;
+  }
+  grid.innerHTML = Array(6).fill(null).map(skel).join('');
+})();
+</script>
+
+<script src="skeleton-loader.js"></script>
+<script type="module" src="auth.js"></script>
+<script type="module" src="api.js"></script>
+</body>
+</html>

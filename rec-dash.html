@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – BeyondMatch</title>
+  <link rel="stylesheet" href="recruiter-matches.css" />
+</head>
+<body>
+
+<aside class="sidebar">
+  <h2 class="brand">BeyondMatch</h2>
+  <nav class="menu">
+    <a href="rec-dash.html"      class="menu-item active">Dashboard</a>
+    <a href="rec-jobs.html"      class="menu-item">My Jobs</a>
+    <a href="cand-matches.html"  class="menu-item">Candidate Matches</a>
+    <a href="rec-actions.html"   class="menu-item">Recruiter Actions</a>
+    <a href="settings.html"      class="menu-item">Settings</a>
+    <button class="menu-item logout-btn" onclick="unifiedLogout()">⏻ Logout</button>
+  </nav>
+</aside>
+
+<main class="main">
+  <div class="page-title">
+    <h1>Hiring Market Overview</h1>
+    <p>Explore hiring trends, job matches, and opportunities across the ecosystem.</p>
+  </div>
+
+  <section class="powerbi-full">
+    <iframe
+      src="https://app.powerbi.com/view?r=eyJrIjoiMmFhYjAyZjgtODFlNy00Zjk1LTk0NDMtYWQ5MDgwZDZjM2U0IiwidCI6IjljMTg1NzE0LWYwYWYtNDgyNi1iZDRiLTdiOTg3ZjZkZDkyMSJ9"
+      allowfullscreen>
+    </iframe>
+  </section>
+</main>
+
+<script type="module" src="auth.js"></script>
+<script type="module" src="api.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+/* =========================================================
+   LLM CLIENT — PROXY VERSION
+   Keys live in Lambda env vars, never in the browser.
+   All failover logic runs server-side in llm-proxy Lambda.
+   
+   api.js, candidate.js, resume.html — no changes needed.
+========================================================= */
+
+const LLM_ENDPOINT = "https://2bcj60lax1.execute-api.eu-north-1.amazonaws.com/prod/llm";
+
+/* ── Prompt cache (in-memory, cleared on page reload) ── */
+const _promptCache = new Map();
+
+function _hashPrompt(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
+  }
+  return h.toString(36);
+}
+
+/* =========================================================
+   PUBLIC: callGemini  (name kept for backward compat)
+========================================================= */
+export async function callGemini(prompt) {
+  const cacheKey = _hashPrompt(prompt);
+  if (_promptCache.has(cacheKey)) {
+    return _promptCache.get(cacheKey);
+  }
+
+  try {
+    const res = await fetch(LLM_ENDPOINT, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ prompt })
+    });
+
+    if (!res.ok) return "";
+
+    const data = await res.json();
+    const result = data?.result || "";
+
+    if (result) _promptCache.set(cacheKey, result);
+    return result;
+
+  } catch {
+    return "";
+  }
+}
+
+/* =========================================================
+   PUBLIC: isGeminiAvailable
+========================================================= */
+export function isGeminiAvailable() {
+  return true;
+}
